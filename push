@@ -1,0 +1,10 @@
+#!/bin/bash
+
+printf "Commit Message:\t"
+read M
+
+npx prettier --write app/**/*.tsx
+
+git add .
+git commit -m "$M"
+git push
