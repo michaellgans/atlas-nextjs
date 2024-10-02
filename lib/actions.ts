@@ -7,6 +7,7 @@ import { revalidatePath } from "next/cache";
 import { insertTopic } from "./data";
 import { insertQuestion } from "./data";
 import { redirect } from "next/navigation";
+import { incrementVotes } from "./data";
 
 export async function addTopic(data: FormData) {
   let topic;
@@ -36,3 +37,13 @@ export async function addQuestion(question: FormData) {
       throw new Error("Failed to add question.");
     }
   }
+
+export async function addVote(data: FormData) {
+    try {
+        incrementVotes(data.get("id") as string);
+        revalidatePath("/ui/topics/[id]", "page");
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to add vote.");
+    }
+}
